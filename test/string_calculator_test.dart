@@ -42,4 +42,27 @@ void main() {
     expect(calculator.add("//:\n1:2:3:4"), equals(10));
     expect(calculator.add("//&\n1&2&3"), equals(6));
   });
+
+  group('negative numbers', () {
+    test('single negative number throws exception', () {
+      expect(
+          () => calculator.add("-1"),
+          throwsA(isA<NegativeNumbersException>().having(
+              (e) => e.toString(), 'message', 'negatives not allowed: -1')));
+    });
+
+    test('multiple negative numbers throws exception with all negatives', () {
+      expect(
+          () => calculator.add("1,-2,3,-4,5,-6"),
+          throwsA(isA<NegativeNumbersException>().having((e) => e.toString(),
+              'message', 'negatives not allowed: -2, -4, -6')));
+    });
+
+    test('negative numbers with custom delimiter throws exception', () {
+      expect(
+          () => calculator.add("//;\n1;-2;3;-4"),
+          throwsA(isA<NegativeNumbersException>().having((e) => e.toString(),
+              'message', 'negatives not allowed: -2, -4')));
+    });
+  });
 }
