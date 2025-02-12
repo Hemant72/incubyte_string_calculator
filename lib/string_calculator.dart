@@ -5,10 +5,12 @@ class StringCalculator {
     }
 
     if (numbers.contains(',')) {
-      List<String> parts = numbers.split(',');
-      return int.parse(parts[0]) + int.parse(parts[1]);
+      return numbers
+          .split(',')
+          .map((val) => int.parse(val))
+          .reduce((sum, val) => sum + val);
     }
-    
+
     return int.parse(numbers);
   }
 }
