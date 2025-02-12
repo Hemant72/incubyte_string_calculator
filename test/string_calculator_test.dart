@@ -24,10 +24,15 @@ void main() {
     expect(calculator.add("10,20"), equals(30));
   });
 
-  
   test('multiple numbers returns their sum', () {
     expect(calculator.add("1,2,3"), equals(6));
     expect(calculator.add("5,7,8,10"), equals(30));
     expect(calculator.add("1,2,3,4,5"), equals(15));
+  });
+
+  test('numbers with newline delimiter returns their sum', () {
+    expect(calculator.add("1\n2,3"), equals(6));
+    expect(calculator.add("1\n2\n3"), equals(6));
+    expect(calculator.add("1,2\n3,4"), equals(10));
   });
 }

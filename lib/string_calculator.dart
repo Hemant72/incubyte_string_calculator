@@ -4,10 +4,10 @@ class StringCalculator {
       return 0;
     }
 
-    if (numbers.contains(',')) {
+    if (numbers.contains(',') || numbers.contains('\n')) {
       return numbers
-          .split(',')
-          .map((val) => int.parse(val))
+          .split(RegExp(r'[,\n]'))
+          .map((val) => int.parse(val.trim()))
           .reduce((sum, val) => sum + val);
     }
 
