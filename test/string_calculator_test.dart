@@ -84,4 +84,23 @@ void main() {
       expect(calculator.add("1000,2"), equals(1002));
     });
   });
+
+  group('multi-character delimiters', () {
+    test('multi-character delimiter in brackets', () {
+      expect(calculator.add("//[***]\n1***2***3"), equals(6));
+      expect(calculator.add("//[sep]\n1sep2sep3"), equals(6));
+      expect(calculator.add("//[--]\n1--2--3"), equals(6));
+    });
+
+    test('multi-character delimiter with special regex characters', () {
+      expect(calculator.add("//[..]\n1..2..3"), equals(6));
+      expect(calculator.add("//[++]\n1++2++3"), equals(6));
+      expect(calculator.add("//[\$\$]\n1\$\$2\$\$3"), equals(6));
+    });
+
+    test('longer multi-character delimiters', () {
+      expect(calculator.add("//[delimiter]\n1delimiter2delimiter3"), equals(6));
+      expect(calculator.add("//[***###]\n1***###2***###3"), equals(6));
+    });
+  });
 }

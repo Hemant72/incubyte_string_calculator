@@ -12,7 +12,11 @@ class StringCalculator {
     if (numbers.startsWith('//')) {
       final delimiterEnd = numbers.indexOf('\n');
       if (delimiterEnd != -1) {
-        delimiter = RegExp.escape(numbers.substring(2, delimiterEnd));
+        String delimiterSpec = numbers.substring(2, delimiterEnd);
+        if (delimiterSpec.startsWith('[') && delimiterSpec.endsWith(']')) {
+          delimiterSpec = delimiterSpec.substring(1, delimiterSpec.length - 1);
+        }
+        delimiter = RegExp.escape(delimiterSpec);
         numbersToProcess = numbers.substring(delimiterEnd + 1);
       }
     }
