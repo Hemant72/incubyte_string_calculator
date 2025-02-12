@@ -65,4 +65,23 @@ void main() {
               'message', 'negatives not allowed: -2, -4')));
     });
   });
+
+  group('numbers greater than 1000', () {
+    test('single number greater than 1000 returns 0', () {
+      expect(calculator.add("1001"), equals(0));
+    });
+
+    test('numbers greater than 1000 are ignored in sum', () {
+      expect(calculator.add("1,1001"), equals(1));
+      expect(calculator.add("2,1001,3"), equals(5));
+    });
+
+    test('numbers greater than 1000 are ignored with custom delimiter', () {
+      expect(calculator.add("//;\n1;2;1001"), equals(3));
+    });
+
+    test('exactly 1000 is not ignored', () {
+      expect(calculator.add("1000,2"), equals(1002));
+    });
+  });
 }

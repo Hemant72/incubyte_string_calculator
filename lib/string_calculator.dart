@@ -1,4 +1,6 @@
 class StringCalculator {
+  static const int _maxAllowedNumber = 1000;
+
   int add(String numbers) {
     if (numbers.isEmpty) {
       return 0;
@@ -26,14 +28,16 @@ class StringCalculator {
         throw NegativeNumbersException(negativeNumbers);
       }
 
-      return nums.reduce((sum, val) => sum + val);
+      return nums
+          .where((n) => n <= _maxAllowedNumber)
+          .reduce((sum, val) => sum + val);
     }
 
     final number = int.parse(numbersToProcess);
     if (number < 0) {
       throw NegativeNumbersException([number]);
     }
-    return number;
+    return number > _maxAllowedNumber ? 0 : number;
   }
 }
 
