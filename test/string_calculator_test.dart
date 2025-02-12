@@ -17,4 +17,10 @@ void main() {
     expect(calculator.add("5"), equals(5));
     expect(calculator.add("42"), equals(42));
   });
+
+  test('two numbers returns their sum', () {
+    expect(calculator.add("1,2"), equals(3));
+    expect(calculator.add("5,7"), equals(12));
+    expect(calculator.add("10,20"), equals(30));
+  });
 }
