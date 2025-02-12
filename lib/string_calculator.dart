@@ -1,6 +1,30 @@
 class StringCalculator {
   static const int _maxAllowedNumber = 1000;
 
+  List<String> _parseDelimiters(String delimiterSpec) {
+    if (delimiterSpec.startsWith('[') && delimiterSpec.endsWith(']')) {
+      List<String> delimiters = [];
+      int startIndex = 0;
+
+      while (startIndex < delimiterSpec.length) {
+        int openBracket = delimiterSpec.indexOf('[', startIndex);
+        if (openBracket == -1) break;
+
+        int closeBracket = delimiterSpec.indexOf(']', openBracket);
+        if (closeBracket == -1) break;
+
+        String delimiter =
+            delimiterSpec.substring(openBracket + 1, closeBracket);
+        delimiters.add(RegExp.escape(delimiter));
+        startIndex = closeBracket + 1;
+      }
+
+      return delimiters;
+    } else {
+      return [RegExp.escape(delimiterSpec)];
+    }
+  }
+
   int add(String numbers) {
     if (numbers.isEmpty) {
       return 0;
@@ -12,11 +36,9 @@ class StringCalculator {
     if (numbers.startsWith('//')) {
       final delimiterEnd = numbers.indexOf('\n');
       if (delimiterEnd != -1) {
-        String delimiterSpec = numbers.substring(2, delimiterEnd);
-        if (delimiterSpec.startsWith('[') && delimiterSpec.endsWith(']')) {
-          delimiterSpec = delimiterSpec.substring(1, delimiterSpec.length - 1);
-        }
-        delimiter = RegExp.escape(delimiterSpec);
+        List<String> delimiters =
+            _parseDelimiters(numbers.substring(2, delimiterEnd));
+        delimiter = delimiters.join('|');
         numbersToProcess = numbers.substring(delimiterEnd + 1);
       }
     }

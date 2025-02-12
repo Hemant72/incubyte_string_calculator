@@ -103,4 +103,26 @@ void main() {
       expect(calculator.add("//[***###]\n1***###2***###3"), equals(6));
     });
   });
+
+    group('multiple delimiters', () {
+    test('two delimiters', () {
+      expect(calculator.add("//[*][%]\n1*2%3"), equals(6));
+      expect(calculator.add("//[+][;]\n1+2;3"), equals(6));
+    });
+
+    test('more than two delimiters', () {
+      expect(calculator.add("//[*][%][;]\n1*2%3;4"), equals(10));
+      expect(calculator.add("//[+][;][##]\n1+2;3##4"), equals(10));
+    });
+
+    test('multiple delimiters with varying lengths', () {
+      expect(calculator.add("//[**][%%]\n1**2%%3"), equals(6));
+      expect(calculator.add("//[###][@@][*]\n1###2@@3*4"), equals(10));
+    });
+
+    test('multiple delimiters with special regex characters', () {
+      expect(calculator.add("//[..][++]\n1..2++3"), equals(6));
+      expect(calculator.add("//[\$\$][&&][||]\n1\$\$2&&3||4"), equals(10));
+    });
+  });
 }
